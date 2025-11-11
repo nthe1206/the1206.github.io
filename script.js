@@ -1,7 +1,6 @@
-// === Firebase setup ===
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyClhUJbJvOdp8Cs0wZa1mVvzyshd7C8wGo",
@@ -10,92 +9,100 @@ const firebaseConfig = {
   projectId: "cantho-22806",
   storageBucket: "cantho-22806.appspot.com",
   messagingSenderId: "620807927683",
-  appId: "1:620807927683:web:xxxxxxxxxxxxxxx" // có thể giữ nguyên hoặc để trống cũng được
+  appId: "1:620807927683:web:xxxxxxxxxxxx"
 };
 
-// === Khởi tạo ===
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const commentsRef = ref(db, "comments");
-const visitsRef = ref(db, "visits/count");
+const adminsRef = ref(db, "admins");
 
-// === Login & Logout ===
+const commentList = document.getElementById("commentList");
+const commentInput = document.getElementById("commentInput");
+const sendBtn = document.getElementById("sendBtn");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
-const userInfo = document.getElementById("user-info");
-const userPhoto = document.getElementById("user-photo");
-const userName = document.getElementById("user-name");
 
-loginBtn.onclick = () => signInWithPopup(auth, provider);
-logoutBtn.onclick = () => signOut(auth);
+let currentUser = null;
+let isAdmin = false;
 
-// === Xử lý người dùng ===
-auth.onAuthStateChanged(user => {
+// Đăng nhập
+loginBtn.onclick = () => {
+  signInWithPopup(auth, provider)
+    .then(result => alert(`Đăng nhập thành công: ${result.user.email}`))
+    .catch(err => alert("Lỗi đăng nhập: " + err.message));
+};
+
+// Đăng xuất
+logoutBtn.onclick = () => {
+  signOut(auth);
+};
+
+// Theo dõi user
+onAuthStateChanged(auth, (user) => {
   if (user) {
+    currentUser = user;
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
-    userInfo.style.display = "flex";
-    userPhoto.src = user.photoURL;
-    userName.textContent = user.displayName;
+    sendBtn.disabled = false;
+
+    onValue(adminsRef, (snapshot) => {
+      const admins = snapshot.val() || {};
+      isAdmin = !!admins[user.uid];
+    });
   } else {
+    currentUser = null;
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
-    userInfo.style.display = "none";
+    sendBtn.disabled = true;
   }
 });
 
-// === Bình luận ===
-const submitBtn = document.getElementById("submitBtn");
-const commentInput = document.getElementById("commentInput");
-const commentsList = document.getElementById("commentsList");
-
-submitBtn.onclick = () => {
+// Gửi bình luận
+sendBtn.onclick = () => {
   const text = commentInput.value.trim();
-  const user = auth.currentUser;
-  if (!text) return alert("Vui lòng nhập bình luận!");
-  const safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // chống XSS
-  const data = {
-    text: safeText,
-    user: user ? user.displayName : "Ẩn danh",
-    photo: user ? user.photoURL : "https://i.imgur.com/Ob8FQ0R.png",
-    uid: user ? user.uid : "guest",
-    time: new Date().toLocaleString("vi-VN")
-  };
-  push(commentsRef, data);
+  if (!currentUser) {
+    alert("Bạn cần đăng nhập để gửi bình luận!");
+    return;
+  }
+  if (text === "") return;
+
+  push(commentsRef, {
+    text: text,
+    user: currentUser.email,
+    uid: currentUser.uid,
+    timestamp: new Date().toLocaleString("vi-VN")
+  });
   commentInput.value = "";
 };
 
-// === Hiển thị bình luận realtime ===
+// Hiển thị bình luận
 onValue(commentsRef, (snapshot) => {
-  commentsList.innerHTML = "";
-  snapshot.forEach(child => {
-    const data = child.val();
-    const div = document.createElement("div");
-    div.className = "comment-item";
-    div.innerHTML = `
-      <img src="${data.photo}" alt="user"/>
-      <div class="comment-text">
-        <strong>${data.user}</strong><br>${data.text}<br>
-        <small>${data.time}</small>
-      </div>
-    `;
-    if (auth.currentUser && data.uid === auth.currentUser.uid) {
-      const del = document.createElement("button");
-      del.className = "deleteBtn";
-      del.textContent = "Xóa";
-      del.onclick = () => remove(ref(db, "comments/" + child.key));
-      div.appendChild(del);
-    }
-    commentsList.prepend(div);
-  });
-});
+  commentList.innerHTML = "";
+  const data = snapshot.val();
+  if (data) {
+    const entries = Object.entries(data);
+    entries.reverse().forEach(([key, cmt]) => {
+      const div = document.createElement("div");
+      div.classList.add("comment");
 
-// === Đếm lượt truy cập ===
-onValue(visitsRef, snap => {
-  const count = snap.val() || 0;
-  document.getElementById("visitCount").innerText = `Lượt truy cập: ${count}`;
+      div.innerHTML = `<p><strong>${cmt.user}</strong>: ${cmt.text}</p><small>${cmt.timestamp}</small>`;
+
+      if (isAdmin) {
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Xoá";
+        delBtn.classList.add("deleteBtn");
+        delBtn.onclick = () => {
+          if (confirm("Xác nhận xoá bình luận này?")) remove(ref(db, "comments/" + key));
+        };
+        div.appendChild(delBtn);
+      }
+      commentList.appendChild(div);
+    });
+  } else {
+    commentList.innerHTML = "<p>Chưa có bình luận nào.</p>";
+  }
 });
-update(visitsRef, { ".sv": { "increment": 1 } });
