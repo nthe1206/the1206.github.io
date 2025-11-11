@@ -1,77 +1,52 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Giới thiệu Thành phố Cần Thơ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giới thiệu Cần Thơ</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header>
-    <h1>Chào mừng đến với Thành phố Cần Thơ 🌇</h1>
-    <p>Trung tâm miền Tây Nam Bộ — hiền hòa, thân thiện, trù phú</p>
-
-    <!-- Auth controls -->
-    <div class="auth-bar">
-      <button id="btnSignIn">Đăng nhập (Google)</button>
-      <button id="btnSignOut" style="display:none">Đăng xuất</button>
-      <span id="authName" class="auth-name"></span>
-    </div>
+    <h1>Chào mừng đến với Thành phố Cần Thơ</h1>
+    <p>Thành phố trung tâm của miền Tây Nam Bộ – hiền hòa, năng động và trù phú</p>
   </header>
 
-  <main>
-    <section id="about" class="card">
-      <h2>Giới thiệu</h2>
-      <p>Cần Thơ – “Tây Đô” của miền Tây Nam Bộ, nổi tiếng với chợ nổi, vườn trái cây và con người hiền hòa.</p>
-      <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" loading="lazy" />
-    </section>
+  <section id="about">
+    <h2>Giới thiệu chung</h2>
+    <p>Cần Thơ nằm bên dòng sông Hậu hiền hòa, được mệnh danh là “Tây Đô” – thủ phủ của miền Tây Nam Bộ. 
+       Nơi đây nổi tiếng với những con người thân thiện, cảnh sắc sông nước hữu tình và nền văn hóa miệt vườn đặc sắc.</p>
+    <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" class="city-img">
+  </section>
 
-    <section id="places" class="card">
-      <h2>Địa điểm nổi bật</h2>
-      <div class="places-grid">
-        <div class="place">
-          <img src="cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" loading="lazy" />
-          <h3>Chợ nổi Cái Răng</h3>
-        </div>
-        <div class="place">
-          <img src="cau-can-tho.jpg" alt="Cầu Cần Thơ" loading="lazy" />
-          <h3>Cầu Cần Thơ</h3>
-        </div>
-        <div class="place">
-          <img src="dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" loading="lazy" />
-          <h3>Đại học Cần Thơ</h3>
-        </div>
-      </div>
-    </section>
+  <section id="comments">
+    <h2>💬 Góp ý & Bình luận</h2>
+    <div id="login-section">
+      <button id="loginBtn">Đăng nhập bằng Google</button>
+      <button id="logoutBtn" style="display:none;">Đăng xuất</button>
+    </div>
 
-    <section id="food" class="card">
-      <h2>Ẩm thực</h2>
-      <p>Bánh xèo, hủ tiếu, trái cây miệt vườn... rất đáng thử!</p>
-      <img src="banh-xeo.jpg" alt="Bánh xèo" loading="lazy" />
-    </section>
+    <div id="user-info" style="display:none;">
+      <img id="user-photo" alt="avatar">
+      <span id="user-name"></span>
+    </div>
 
-    <section id="feedback" class="card">
-      <h2>💬 Góp ý & Bình luận</h2>
-      <textarea id="commentBox" placeholder="Nhập bình luận của bạn..." maxlength="500"></textarea>
-      <div class="row">
-        <button id="sendComment">Gửi</button>
-      </div>
-      <div id="commentList"></div>
-    </section>
+    <textarea id="commentInput" placeholder="Nhập bình luận của bạn..."></textarea>
+    <button id="submitBtn">Gửi</button>
 
-    <section id="contact" class="card">
-      <h2>Liên hệ</h2>
-      <p>0909552009</p>
-      <p id="visitCount">Đang tải lượt truy cập...</p>
-    </section>
-  </main>
+    <div id="commentsList"></div>
+  </section>
+
+  <section id="contact">
+    <h2>📞 Liên hệ</h2>
+    <p>Điện thoại góp ý: <strong>0909552009</strong></p>
+    <p id="visitCount">Đang tải lượt truy cập...</p>
+  </section>
 
   <footer>
-    <p>© 2025 Giới thiệu Cần Thơ — thiết kế bởi nthe1206</p>
+    <p>© 2025 Giới thiệu Cần Thơ | Thiết kế bởi nthe1206</p>
   </footer>
 
-  <!-- module script -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
