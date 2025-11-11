@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giới thiệu Cần Thơ</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giới thiệu thành phố Cần Thơ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Chào mừng đến với Thành phố Cần Thơ</h1>
-    <p>Thành phố trung tâm của miền Tây Nam Bộ – hiền hòa, năng động và trù phú</p>
+    <h1>🌆 Thành phố Cần Thơ</h1>
+    <p>Thành phố trung tâm của miền Tây Nam Bộ – năng động, hiện đại và hiếu khách.</p>
   </header>
 
-  <section id="about">
-    <h2>Giới thiệu chung</h2>
-    <p>Cần Thơ nằm bên dòng sông Hậu hiền hòa, được mệnh danh là “Tây Đô” – thủ phủ của miền Tây Nam Bộ. 
-       Nơi đây nổi tiếng với những con người thân thiện, cảnh sắc sông nước hữu tình và nền văn hóa miệt vườn đặc sắc.</p>
-    <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" class="city-img">
+  <section class="intro">
+    <h2>📍 Giới thiệu chung</h2>
+    <p>
+      Cần Thơ là đô thị loại I trực thuộc trung ương, trung tâm kinh tế – văn hoá – giáo dục của vùng Đồng bằng sông Cửu Long. 
+      Thành phố nổi tiếng với chợ nổi Cái Răng, bến Ninh Kiều và hệ thống kênh rạch đặc trưng.
+    </p>
+    <img src="cantho1.jpg" alt="Bến Ninh Kiều" class="fade">
+  </section>
+
+  <section class="places">
+    <h2>🏞️ Địa điểm nổi bật</h2>
+    <div class="gallery">
+      <img src="cantho2.jpg" alt="Cầu Cần Thơ">
+      <img src="cantho3.jpg" alt="Chợ nổi Cái Răng">
+      <img src="cantho4.jpg" alt="Nhà cổ Bình Thủy">
+      <img src="cantho5.jpg" alt="Đêm bên sông Hậu">
+    </div>
+  </section>
+
+  <section class="food">
+    <h2>🍜 Ẩm thực đặc trưng</h2>
+    <p>
+      Cần Thơ nổi tiếng với các món ăn dân dã như lẩu mắm, cá linh bông điên điển, bánh cống và các loại trái cây miệt vườn. 
+      Người dân hiền hoà, hiếu khách, luôn để lại ấn tượng khó quên trong lòng du khách.
+    </p>
   </section>
 
   <section id="comments">
-    <h2>💬 Góp ý & Bình luận</h2>
-    <div id="login-section">
+    <h2>💬 Bình luận & Góp ý</h2>
+
+    <div class="auth">
       <button id="loginBtn">Đăng nhập bằng Google</button>
       <button id="logoutBtn" style="display:none;">Đăng xuất</button>
     </div>
 
-    <div id="user-info" style="display:none;">
-      <img id="user-photo" alt="avatar">
-      <span id="user-name"></span>
+    <div class="comment-box">
+      <textarea id="commentInput" placeholder="Nhập bình luận..."></textarea>
+      <button id="sendBtn" disabled>Gửi</button>
     </div>
 
-    <textarea id="commentInput" placeholder="Nhập bình luận của bạn..."></textarea>
-    <button id="submitBtn">Gửi</button>
-
-    <div id="commentsList"></div>
-  </section>
-
-  <section id="contact">
-    <h2>📞 Liên hệ</h2>
-    <p>Điện thoại góp ý: <strong>0909552009</strong></p>
-    <p id="visitCount">Đang tải lượt truy cập...</p>
+    <div id="commentList" class="comment-list"></div>
   </section>
 
   <footer>
-    <p>© 2025 Giới thiệu Cần Thơ | Thiết kế bởi nthe1206</p>
+    <p>📍 Cần Thơ – Thành phố của những dòng sông | © 2025</p>
   </footer>
 
   <script type="module" src="script.js"></script>
