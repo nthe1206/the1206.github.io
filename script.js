@@ -4,14 +4,13 @@ import { getDatabase, ref, push, onValue, remove, update } from "https://www.gst
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD9_pM1QPug4y_7FT1ltYg6-eUDgz17NOo",
+  apiKey: "AIzaSyClhUJbJvOdp8Cs0wZa1mVvzyshd7C8wGo",
   authDomain: "cantho-22806.firebaseapp.com",
+  databaseURL: "https://cantho-22806-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "cantho-22806",
-  storageBucket: "cantho-22806.firebasestorage.app",
+  storageBucket: "cantho-22806.appspot.com",
   messagingSenderId: "620807927683",
-  appId: "1:620807927683:web:8e120572f2581e68e6a8b6",
-  measurementId: "G-QPNY1FV450",
-  databaseURL: "https://cantho-22806-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  appId: "1:620807927683:web:xxxxxxxxxxxxxxx" // có thể giữ nguyên hoặc để trống cũng được
 };
 
 // === Khởi tạo ===
